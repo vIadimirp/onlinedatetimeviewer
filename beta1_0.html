@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Online date and time viewer</title>
+        <style type="text/css" id="imports">
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito:wght@300;400;500;700&display=swap');
+        </style>
+        <style type="text/css" id="reset">
+            * {
+                padding: 0;
+                margin: 0;
+                border: 0;
+                width: auto;
+                height: auto;
+            }
+            a {
+                text-decoration: none;
+            }
+            ol, ul {
+                list-style: none;
+            }
+            html, body {
+                width: 100%;
+                height: 100%;
+                scroll-behavior: smooth;
+                background-color: #fff;
+            }
+        </style>
+        <style type="text/css" id="variables">
+            :root {
+                --font-1: 'Nunito', sans-serif;
+                --font-2: 'Montserrat', sans-serif;
+                --datetime-font-size: 15vw;
+            }
+        </style>
+        <style type="text/css" id="custom-blocks-style">
+            div.separator {
+                height: 1px;
+                background-color: #d0d0d0;
+            }
+            div.heading {
+                font-family: var(--font-1);
+                display: flex;
+                justify-content: center;
+                padding-bottom: 20px;
+                font-size: 70px;
+                letter-spacing: 5px;
+            }
+        </style>
+        <style type="text/css" id="icons-style">
+            svg.bi-gear-fill {
+                transition: 0.3s;
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                color: #000;
+            }
+            svg.bi-gear-fill:hover {
+                transition: 0.3s;
+                transform: rotate(70deg);
+                color: #000;
+            }
+        </style>
+        <style type="text/css" id="datetime-style">
+            div#datetime-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                font-family: var(--font-1);
+                font-weight: 700;
+                height: 100vh
+            }
+            div#date-container, div#time-container {
+                text-align: center;
+            }
+            span#time {
+                font-size: var(--datetime-font-size);
+            }
+            span#time-ms {
+                font-size: calc(var(--datetime-font-size) * 0.71);
+            }
+            span#date {
+                font-size: calc(var(--datetime-font-size) * 0.43);
+            }
+        </style>
+        <style type="text/css" id="settings-style">
+            #settings {
+                background: #ffffff;
+                padding: 10px;
+                font-family: var(--font-2);
+                font-weight: 500;
+                list-style: none;
+            }
+            #settings ul {}
+            .settings-item {
+                padding: 10px;
+                background-color: #eaeaea;
+                width: fit-content;
+                border-radius: 10px;
+                margin: 10px;
+                display: inline-block;
+            }
+            .settings-item input {
+                border: 2px solid gray;
+                width: 50px;
+                height: 50px;
+            }
+            .settings-item input[type='color'] {
+                transform: translateY(2px);
+            }
+            .settings-item input[type='checkbox'] {
+                transform: translateY(8px);
+            }
+            .settings-item input[type='number'],
+            .settings-item input[type='input'] {
+                font-size: 40px;
+                text-align: end;
+                width: 3.5ch;
+                font-weight: 400;
+            }
+            .settings-item input[type='radio'] {
+                width: 35px;
+                height: 35px;
+                transform: translateY(3px);
+            }
+            .settings-item input[type='file'] {
+                width: auto;
+                height: auto;
+                border: 0;
+            }
+            .settings-item label {
+                font-size: 50px;
+                padding-right: 10px;
+            }
+        </style>
+        <style type="text/css" id="adaptability">
+            @media (max-width: 1200px) {
+
+            }
+        </style>
+        <style type="text/css" id="scrollbar-style"></style>
+    </head>
+    <body>
+        <a href="#settings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 
+                1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 
+                1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 
+                2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 
+                0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 
+                10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+            </svg>
+        </a>
+        <div id="datetime-container">
+            <div id="date-container">
+                <span id="date"></span>
+            </div>
+            <div id="time-container">
+                <span id="time"></span>
+                <span id="time-ms"></span>
+            </div>
+        </div>
+        <div class="separator"></div>
+        <div class="heading">Settings</div>
+        <div id="settings">
+            <ul>
+                <li class="settings-item">
+                    <label for="text-color-selector">Text color:</label>
+                    <input type="color" id="text-color-selector" value="#000000">
+                </li>
+                <li class="settings-item">
+                    <label for="hide-ms-checkbox">Hide milliseconds:</label>
+                    <input type="checkbox" id="hide-ms-checkbox">
+                </li>
+                <!--
+                <li class="settings-item">
+                    <label for="hide-seconds-checkbox">Hide seconds:</label>
+                    <input type="checkbox" id="hide-seconds-checkbox">
+                </li>
+                -->
+                <li class="settings-item">
+                    <label for="hide-date-checkbox">Hide date:</label>
+                    <input type="checkbox" id="hide-date-checkbox">
+                </li>
+                <li class="settings-item">
+                    <label for="hide-scrollbar-checkbox">Hide scrollbar:</label>
+                    <input type="checkbox" id="hide-scrollbar-checkbox">
+                </li>
+                <li class="settings-item">
+                    <label for="hide-settings-button-checkbox">Hide settings button:</label>
+                    <input type="checkbox" id="hide-settings-button-checkbox">
+                </li>
+            </ul>
+        </div>
+        <script type="text/javascript" id="variables">
+            let millisecondsVisible = true;
+            let scrollbarVisible = true;
+            let settingsButtonVisible = true;
+            let dateVisible = true;
+            let secondsVisible = true;
+        </script>
+        <script type="text/javascript" id="datetime-script">
+            function toLength(s, l) {
+                return '0'.repeat(l - s.toString().length) + s.toString();
+            }
+            function getDateTime() {
+                const date = new Date();
+                return [
+                    toLength(date.getFullYear(), 4),
+                    toLength(date.getMonth() + 1, 2),
+                    toLength(date.getDate(), 2),
+                    toLength(date.getHours(), 2),
+                    toLength(date.getMinutes(), 2),
+                    toLength(date.getSeconds(), 2),
+                    toLength(date.getMilliseconds(), 3)
+                ];
+            }
+            function fillDateTime() {
+                const dateTimeArray = getDateTime();
+                let date = dateTimeArray[0] + '-' + dateTimeArray[1] + '-' + dateTimeArray[2];
+                let time = dateTimeArray[3] + ':' + dateTimeArray[4];
+                if (secondsVisible) {
+                    time = time + ':' + dateTimeArray[5];
+                }
+                document.querySelector('span#date').innerHTML = date;
+                document.querySelector('span#time').innerHTML = time;
+                document.querySelector('span#time-ms').innerHTML = '.' + dateTimeArray[6][0];
+            }
+        </script>
+        <script type="text/javascript" id="settings-script">
+            function changeTextColor() {
+                const value = document.querySelector('input#text-color-selector').value;
+                document.querySelector('span#date').style.color = value;
+                document.querySelector('span#time').style.color = value;
+                document.querySelector('span#time-ms').style.color = value;
+                document.querySelectorAll('svg').forEach((element) => {element.style.color = value});
+            }
+            function millisecondsToggle() {
+                const label = document.querySelector('span#time-ms');
+                if (millisecondsVisible) {
+                    label.style.display = 'none';
+                    millisecondsVisible = false;
+                } else {
+                    label.style.display = 'inline';
+                    millisecondsVisible = true;
+                }
+            }
+            function scrollbarToggle() {
+                const style = document.querySelector('head style#scrollbar-style');
+                if (scrollbarVisible) {
+                    style.innerHTML = 'body::-webkit-scrollbar {display: none;} body {-ms-overflow-style: none; scrollbar-width: none;}';
+                    scrollbarVisible = false;
+                } else {
+                    style.innerHTML = '';
+                    scrollbarVisible = true;
+                }
+            }
+            function settingsButtonToggle() {
+                const label = document.querySelector('svg.bi-gear-fill');
+                if (settingsButtonVisible) {
+                    label.style.display = 'none';
+                    settingsButtonVisible = false;
+                } else {
+                    label.style.display = 'inline';
+                    settingsButtonVisible = true;
+                }
+            }
+            function dateToggle() {
+                const label = document.querySelector('span#date');
+                if (dateVisible) {
+                    label.style.display = 'none';
+                    dateVisible = false;
+                } else {
+                    label.style.display = 'inline';
+                    dateVisible = true;
+                }
+            }
+            function secondsToggle() {
+                if (secondsVisible) {
+                    secondsVisible = false;
+                } else {
+                    secondsVisible = true;
+                }
+            }
+        </script>
+        <script type="text/javascript" id="launcher">
+            function startup() {
+                document.querySelector('input#text-color-selector').oninput = changeTextColor;
+                document.querySelector('input#hide-ms-checkbox').oninput = millisecondsToggle;
+                document.querySelector('input#hide-scrollbar-checkbox').oninput = scrollbarToggle;
+                document.querySelector('input#hide-settings-button-checkbox').oninput = settingsButtonToggle;
+                document.querySelector('input#hide-date-checkbox').oninput = dateToggle;
+                /* document.querySelector('input#hide-seconds-checkbox').oninput = secondsToggle; */
+                setInterval(fillDateTime, 50);
+            }
+            function run() {
+                startup();
+            }
+            run();
+        </script>
+    </body>
+</html>
